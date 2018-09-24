@@ -3,6 +3,7 @@ import Header from '../components/header'
 import HeadCom from '../components/head'
 import Footer from '../components/footer'
 import Project from '../components/project'
+import ErrorPage from '../components/errorPage'
 
 import getAllProjects from '../services/getAllProjects'
 
@@ -13,11 +14,12 @@ class Index extends Component{
         super()
         this.state = {
             projects: [],
+            error: false,
         }
     }
 
     componentDidMount() {
-        getAllProjects().then((projects) => this.setState({projects}))
+        getAllProjects().then((res) => res.ok ? ({projects: res.projects}) : ({error: true})).then((state) => this.setState(state))
     }
 
     render() {
@@ -27,6 +29,7 @@ class Index extends Component{
                 <div id="main">
                     <HeadCom />
                     <Header />
+                    { this.state.error ? <ErrorPage /> : (
                     <div className="content">
                         {this.state.projects.map((e) => 
                             <Project 
@@ -37,6 +40,7 @@ class Index extends Component{
                                 key={e.name}
                             /> )}
                     </div>
+                    )}
                 </div>
             </div>
             <div className="pure-menu pure-menu-horizontal">

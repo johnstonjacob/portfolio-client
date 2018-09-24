@@ -9,8 +9,12 @@ const getAllProjects = async () => {
         url: `${publicRuntimeConfig.API_URL}/projects`
     }
 
+    try {
     const { data } = await axios(options)
-    return data;
+    return { data, ok: true };
+    } catch (error) {
+        return { ok: false }
+    }
 }
 
 export default getAllProjects;
