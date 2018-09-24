@@ -28,7 +28,14 @@ class Index extends Component{
                     <HeadCom />
                     <Header />
                     <div className="content">
-                        <Project />
+                        {this.state.projects.map((e) => 
+                            <Project 
+                                name={e.name}
+                                brief={e.brief}
+                                technologies={e.technologies}
+                                githubURL={e.githubURL}
+                                key={e.name}
+                            /> )}
                     </div>
                 </div>
             </div>

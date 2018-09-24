@@ -6,7 +6,7 @@ const { publicRuntimeConfig } = getConfig()
 const getAllProjects = async () => {
     const options = {
         method: "GET",
-        url: publicRuntimeConfig.API_URL
+        url: `${publicRuntimeConfig.API_URL}/projects`
     }
 
     const { data } = await axios(options)
