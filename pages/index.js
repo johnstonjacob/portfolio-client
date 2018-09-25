@@ -20,7 +20,7 @@ class Index extends Component {
 
   componentDidMount() {
     getAllProjects()
-      .then(res => (res.ok ? { projects: res.projects } : { error: true }))
+      .then(res => (res.ok ? { projects: res.data} : { error: true }))
       .then(state => this.setState(state));
   }
 
@@ -37,11 +37,11 @@ class Index extends Component {
               <div className="content">
                 {this.state.projects.map(e => (
                   <Project
-                    name={e.name}
+                    name={e.project}
                     brief={e.brief}
                     technologies={e.technologies}
                     githubURL={e.githubURL}
-                    key={e.name}
+                    key={e.project}
                   />
                 ))}
               </div>

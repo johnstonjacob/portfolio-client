@@ -1,4 +1,6 @@
 import '../styles/stylesheet.css';
+import getConfig from 'next/config';
+const { publicRuntimeConfig } = getConfig();
 
 const Footer = () => (
   <ul className="pure-menu-list footer">
@@ -18,7 +20,7 @@ const Footer = () => (
       </a>
     </li>
     <li className="pure-menu-item">
-      <a href="//TODO" className="pure-menu-link">
+      <a href={publicRuntimeConfig.CV_URL} className="pure-menu-link">
         CV
       </a>
     </li>
