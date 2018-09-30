@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import Header from '../components/header';
-import HeadCom from '../components/head';
-import Footer from '../components/footer';
-import Project from '../components/project';
-import ErrorPage from '../components/errorPage';
+import Header from './components/header';
+import Footer from './components/footer';
+import Project from './components/project';
+import ErrorPage from './components/errorPage';
 
-import getAllProjects from '../services/getAllProjects';
+import getAllProjects from './services/getAllProjects';
 
-import '../styles/stylesheet.css';
+import './index.css';
 
 class Index extends Component {
   constructor() {
@@ -29,7 +28,6 @@ class Index extends Component {
       <div>
         <div id="layout">
           <div id="main">
-            <HeadCom />
             <Header />
             {this.state.error ? (
               <ErrorPage />

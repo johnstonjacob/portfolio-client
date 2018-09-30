@@ -1,3 +1,4 @@
+import React from 'react'
 const Project = props => (
   <div className="project-container">
     <h2>{props.name}</h2>

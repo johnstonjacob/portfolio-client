@@ -1,11 +1,9 @@
 import axios from 'axios';
-import getConfig from 'next/config';
-const { publicRuntimeConfig } = getConfig();
 
 const getAllProjects = async () => {
   const options = {
     method: 'GET',
-    url: `${publicRuntimeConfig.API_URL}/projects`,
+    url: `${process.env.REACT_APP_API_URL}/projects`,
   };
 
   try {

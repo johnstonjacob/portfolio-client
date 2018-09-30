@@ -1,4 +1,4 @@
-import '../styles/stylesheet.css';
+import React from 'react'
 
 const Header = () => (
   <div className="header">

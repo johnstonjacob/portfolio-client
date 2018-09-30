@@ -1,6 +1,4 @@
-import '../styles/stylesheet.css';
-import getConfig from 'next/config';
-const { publicRuntimeConfig } = getConfig();
+import React from 'react';
 
 const Footer = () => (
   <ul className="pure-menu-list footer">
@@ -20,7 +18,7 @@ const Footer = () => (
       </a>
     </li>
     <li className="pure-menu-item">
-      <a href={publicRuntimeConfig.CV_URL} className="pure-menu-link">
+      <a href={process.env.REACT_APP_CV_URL} className="pure-menu-link">
         CV
       </a>
     </li>
