@@ -9,7 +9,7 @@ const Footer = () => (
     </li>
     <li className="pure-menu-item">
       <a href="https://linkedin.com/in/johnstonajacob" className="pure-menu-link">
-        Linkedin
+        LinkedIn
       </a>
     </li>
     <li className="pure-menu-item">
