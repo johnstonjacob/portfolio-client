@@ -16,6 +16,8 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      - setup_remote_docker:   # (2)
+          docker_layer_caching: true # (3)
       - run:
           name: Install Docker client
           command: |
@@ -23,8 +25,7 @@ jobs:
             VER="17.03.0-ce"
             curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
             tar -xz -C /tmp -f /tmp/docker-$VER.tgz
-            chown -R $USER:$USER /usr/bin
-            mv -f /tmp/docker/* /usr/bin
+            mv /tmp/docker/* /usr/bin
       - run: |
           TAG=0.1.$CIRCLE_BUILD_NUM
           docker build -t   johnstonjacob/portfolio-client:$TAG .
