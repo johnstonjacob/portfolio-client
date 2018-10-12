@@ -11,7 +11,6 @@ jobs:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
-      - run: npm build
       - save_cache:
           paths:
             - node_modules
@@ -36,7 +35,8 @@ jobs:
       - image: circleci/python:3.7-jessie
     working_directory: ~/repo
     steps:
-        -  ./update_deploy.sh ${TAG} ${SCRIPT_LOCATION}
+        - run:
+            command:  ./update_deploy.sh ${TAG} ${SCRIPT_LOCATION}
 workflows:
   version: 2
   build-and-deploy:
