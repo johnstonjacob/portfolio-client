@@ -34,7 +34,7 @@ jobs:
       - image: circleci/python:3.7-jessie
     working_directory: ~/repo
     steps:
-        -  ./update_deploy.sh
+        -  ./update_deploy.sh ${TAG} ${SCRIPT_LOCATION}
 workflows:
   version: 2
   build-and-deploy:
