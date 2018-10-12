@@ -32,7 +32,7 @@ jobs:
           docker push johnstonjacob/portfolio-client:$TAG
   deploy:
     docker:
-      - image: circleci/python:3.7-jessie
+      - image: python:3.7
     working_directory: ~/repo
     steps:
         - run:
