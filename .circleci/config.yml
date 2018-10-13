@@ -30,7 +30,7 @@ jobs:
           docker build -t   johnstonjacob/portfolio-client:$TAG .
           docker login -u $DOCKER_USER -p $DOCKER_PASS
           docker push johnstonjacob/portfolio-client:$TAG
-     - run:
+      - run:
          name: Deploy via script
          command: docker run -it --rm -v ${PWD}/list_items.py:/work/list_items.py -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -w /work lauriku/docker-boto3 python list_items.py
 workflows:
