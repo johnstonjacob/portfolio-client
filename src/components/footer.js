@@ -4,7 +4,7 @@ const Footer = () => (
   <ul className="pure-menu-list footer">
     <li className="pure-menu-item">
       <a href="https://github.com/johnstonjacob" className="pure-menu-link">
-        Github
+        GitHub
       </a>
     </li>
     <li className="pure-menu-item">
