@@ -33,6 +33,9 @@ jobs:
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push johnstonjacob/portfolio-client:$TAG
       - run:
+          name: Install Pip
+          command: apt update && apt install pip && pip install boto3
+      - run:
          name: Deploy via script
          command: python update_deploy.py ${TAG} ${SCRIPT_LOCATION}
 workflows:
