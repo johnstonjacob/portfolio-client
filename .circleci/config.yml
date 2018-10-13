@@ -34,7 +34,10 @@ jobs:
               docker push johnstonjacob/portfolio-client:$TAG
       - run:
           name: Install Pip
-          command: apt update && apt install pip && pip install boto3
+          command: |
+              curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+              python get-pip.py
+              pip install boto3
       - run:
          name: Deploy via script
          command: python update_deploy.py ${TAG} ${SCRIPT_LOCATION}
