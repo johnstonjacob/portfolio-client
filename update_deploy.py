@@ -25,10 +25,8 @@ def execute_commands_on_linux_instances(client, commands, instance_ids):
         },
         InstanceIds=instance_ids,
     )
-    return resp
 
 def getTaggedInstances(client, value):
-    instance_ids = []
     instances = client.describe_instances(Filters=[{
             'Name': 'tag:aws:cloudformation:stack-name',
             'Values': [value]
