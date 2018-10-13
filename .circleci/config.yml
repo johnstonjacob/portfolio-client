@@ -29,10 +29,9 @@ jobs:
           name: Build docker image
           command: |
               DOCKER_TAG=0.1.$CIRCLE_BUILD_NUM
-              echo ${DOCKER_TAG}
               docker build -t   johnstonjacob/portfolio-client:$DOCKER_TAG .
               docker login -u $DOCKER_USER -p $DOCKER_PASS
-              docker push johnstonjacob/portfolio-client:$TAG
+              docker push johnstonjacob/portfolio-client:$DOCKER_TAG
       - run:
           name: Install Pip
           command: |
