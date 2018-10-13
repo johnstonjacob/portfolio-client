@@ -35,7 +35,7 @@ def getTaggedInstances(client, value):
 
 
 if len(sys.argv) < 4:
-    print("Insuffecient parameters, requires tag and script.")
+    print("Insuffecient parameters, requires instance tag, S3 hosted script location, and the tag for the docker container.")
     sys.exit(1)
 
 tag = sys.argv[1]

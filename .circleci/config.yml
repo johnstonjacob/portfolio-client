@@ -2,38 +2,29 @@ version: 2
 jobs:
   build:
     docker:
-        - image: python:3.7
+        - image: docker
     working_directory: ~/repo
 
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
       - setup_remote_docker:   # (2)
           docker_layer_caching: true # (3)
-      - run:
-          name: Install Docker client
-          command: |
-            set -x
-            VER="17.03.0-ce"
-            curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
-            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
-            mv /tmp/docker/* /usr/bin
       - run: 
           name: Build docker image
           command: |
-              DOCKER_TAG=0.1.$CIRCLE_BUILD_NUM
+              DOCKER_TAG=$(git log -1 --format=%h)
               echo REACT_APP_API_URL=${REACT_APP_API_URL} >> .env
               echo REACT_APP_CV_URL=${REACT_APP_CV_URL} >> .env
               docker build -t   johnstonjacob/portfolio-client:$DOCKER_TAG .
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push johnstonjacob/portfolio-client:$DOCKER_TAG
+  deploy:
+    docker:
+        - image: python:3.7
+    working_directory: ~/repo
+
+    steps:
+      - checkout
       - run:
           name: Install boto3
           command: |
@@ -41,13 +32,14 @@ jobs:
       - run:
          name: Deploy via script
          command: |
-             DOCKER_TAG=0.1.$CIRCLE_BUILD_NUM
+             DOCKER_TAG=$(git log -1 --format=%h)
              python3 update_deploy.py ${TAG} ${SCRIPT_LOCATION} ${DOCKER_TAG}
 workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build:
+      - build
+      - deploy:
           filters:
             branches:
               only: master
