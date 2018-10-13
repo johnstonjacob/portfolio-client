@@ -29,12 +29,11 @@ def execute_commands_on_linux_instances(client, commands, instance_ids):
 
 def getTaggedInstances(client, value):
     instance_ids = []
-    for instance in client.instances.all():
-        for tag in instance.tags:
-            if tag["Key"] == "aws:cloudformation:stack-name":
-                if tag["Value"] == value:
-                    instance_ids.append(instance.id)
-    return instance_ids
+    instances = client.describe_instances(Filters=[{
+            'Name': 'tag:aws:cloudformation:stack-name',
+            'Values': [value]
+        }])
+    return [instance['InstanceId'] for instance in instances['Reservations'][0]['Instances']]
 
 
 if len(sys.argv) < 4:
@@ -45,12 +44,10 @@ tag = sys.argv[1]
 script_location = sys.argv[2]
 docker_tag = sys.argv[3]
 
-print(docker_tag)
-
 bucket, path = script_location.split("/", 1)
 
 ssm_client = boto3.client('ssm') 
-ec2_resource = boto3.resource("ec2")
+ec2_resource = boto3.client("ec2")
 s3_client = boto3.client("s3")
 
 
