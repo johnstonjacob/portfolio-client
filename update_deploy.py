@@ -37,13 +37,13 @@ def getTaggedInstances(client, value):
     return instance_ids
 
 
-if len(sys.argv) < 3:
+if len(sys.argv) < 4:
     print("Insuffecient parameters, requires tag and script.")
     sys.exit(1)
 
 tag = sys.argv[1]
 script_location = sys.argv[2]
-docker_tag = os.environ["DOCKER_TAG"]
+docker_tag = sys.argv[3]
 
 print(docker_tag)
 
