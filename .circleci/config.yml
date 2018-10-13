@@ -28,10 +28,10 @@ jobs:
       - run: 
           name: Build docker image
           command: |
-          TAG=0.1.$CIRCLE_BUILD_NUM
-          docker build -t   johnstonjacob/portfolio-client:$TAG .
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push johnstonjacob/portfolio-client:$TAG
+              TAG=0.1.$CIRCLE_BUILD_NUM
+              docker build -t   johnstonjacob/portfolio-client:$TAG .
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push johnstonjacob/portfolio-client:$TAG
       - run:
          name: Deploy via script
          command: docker run -it --rm -v ${PWD}/update_deploy.py:/work/update_deploy.py -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -w /work lauriku/docker-boto3 python update_deploy.py
