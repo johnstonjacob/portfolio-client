@@ -34,7 +34,7 @@ jobs:
               docker push johnstonjacob/portfolio-client:$TAG
       - run:
          name: Deploy via script
-         command: docker run --rm -v ${PWD}/update_deploy.py:/work/update_deploy.py -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -w /work lauriku/docker-boto3 python3 update_deploy.py ${TAG} ${SCRIPT_LOCATION}
+         command: python update_deploy.py ${TAG} ${SCRIPT_LOCATION}
 workflows:
   version: 2
   build-and-deploy:
