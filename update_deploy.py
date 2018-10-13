@@ -43,6 +43,9 @@ if len(sys.argv) < 3:
 
 tag = sys.argv[1]
 script_location = sys.argv[2]
+docker_tag = os.environ["DOCKER_TAG"]
+
+print(docker_tag)
 
 bucket, path = script_location.split("/", 1)
 
@@ -50,7 +53,8 @@ ssm_client = boto3.client('ssm')
 ec2_resource = boto3.resource("ec2")
 s3_client = boto3.client("s3")
 
-script = s3_client.get_object(Bucket=bucket, Key=path)["Body"].read().decode("utf8").replace("~TAG~", os.environ["DOCKER_TAG"])
+
+script = s3_client.get_object(Bucket=bucket, Key=path)["Body"].read().decode("utf8").replace("~TAG~", docker_tag)
 
 commands = [script]
 instance_ids = getTaggedInstances(ec2_resource, tag)
