@@ -12,7 +12,7 @@ jobs:
       - run: 
           name: Build docker image
           command: |
-              DOCKER_TAG=$(git log -1 --format=%h)
+              DOCKER_TAG=$(echo ${CIRCLE_SHA1} | cut -c1-8)
               echo REACT_APP_API_URL=${REACT_APP_API_URL} >> .env
               echo REACT_APP_CV_URL=${REACT_APP_CV_URL} >> .env
               docker build -t   johnstonjacob/portfolio-client:$DOCKER_TAG .
@@ -32,8 +32,8 @@ jobs:
       - run:
          name: Deploy via script
          command: |
-             DOCKER_TAG=$(git log -1 --format=%h)
-             python3 update_deploy.py ${TAG} ${SCRIPT_LOCATION} ${DOCKER_TAG}
+            DOCKER_TAG=$(echo ${CIRCLE_SHA1} | cut -c1-8)
+            python3 update_deploy.py ${TAG} ${SCRIPT_LOCATION} ${DOCKER_TAG}
 workflows:
   version: 2
   build-and-deploy:
