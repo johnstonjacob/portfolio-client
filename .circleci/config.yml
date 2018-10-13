@@ -8,12 +8,15 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
+      - run:
+          name: Create .env file
+          command: |
+              echo REACT_APP_API_URL=${REACT_APP_API_URL} >> .env
+              echo REACT_APP_CV_URL=${REACT_APP_CV_URL} >> .env
       - run: 
           name: Build docker image
           command: |
               DOCKER_TAG=$(echo ${CIRCLE_SHA1} | cut -c1-8)
-              echo REACT_APP_API_URL=${REACT_APP_API_URL} >> .env
-              echo REACT_APP_CV_URL=${REACT_APP_CV_URL} >> .env
               docker build -t $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME:$DOCKER_TAG .
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME:$DOCKER_TAG
