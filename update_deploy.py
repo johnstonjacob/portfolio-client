@@ -50,7 +50,7 @@ ssm_client = boto3.client('ssm')
 ec2_resource = boto3.resource("ec2")
 s3_client = boto3.client("s3")
 
-script = s3_client.get_object(Bucket=bucket, Key=path)["Body"].read().decode("utf8")
+script = s3_client.get_object(Bucket=bucket, Key=path)["Body"].read().decode("utf8").replace("~TAG~", os.environ["TAG"])
 
 commands = [script]
 instance_ids = getTaggedInstances(ec2_resource, tag)
