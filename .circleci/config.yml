@@ -31,6 +31,7 @@ jobs:
               DOCKER_TAG=0.1.$CIRCLE_BUILD_NUM
               echo REACT_APP_API_URL=${REACT_APP_API_URL} >> .env
               echo REACT_APP_CV_URL=${REACT_APP_CV_URL} >> .env
+              cat .env
               docker build -t   johnstonjacob/portfolio-client:$DOCKER_TAG .
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push johnstonjacob/portfolio-client:$DOCKER_TAG
