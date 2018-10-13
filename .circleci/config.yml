@@ -4,25 +4,23 @@ jobs:
     docker:
         - image: docker
     working_directory: ~/repo
-
     steps:
       - checkout
-      - setup_remote_docker:   # (2)
-          docker_layer_caching: true # (3)
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run: 
           name: Build docker image
           command: |
               DOCKER_TAG=$(echo ${CIRCLE_SHA1} | cut -c1-8)
               echo REACT_APP_API_URL=${REACT_APP_API_URL} >> .env
               echo REACT_APP_CV_URL=${REACT_APP_CV_URL} >> .env
-              docker build -t   johnstonjacob/portfolio-client:$DOCKER_TAG .
+              docker build -t $CIRCLE_PROJECT_USERNAME/CIRCLE_PROJECT_REPONAME:$DOCKER_TAG .
               docker login -u $DOCKER_USER -p $DOCKER_PASS
-              docker push johnstonjacob/portfolio-client:$DOCKER_TAG
+              docker push $CIRCLE_PROJECT_USERNAME/CIRCLE_PROJECT_REPONAME:$DOCKER_TAG
   deploy:
     docker:
         - image: python:3.7
     working_directory: ~/repo
-
     steps:
       - checkout
       - run:
