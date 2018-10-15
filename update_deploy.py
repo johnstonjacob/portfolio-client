@@ -53,5 +53,7 @@ script = s3_client.get_object(Bucket=bucket, Key=path)["Body"].read().decode("ut
 
 commands = [script]
 instance_ids = getTaggedInstances(ec2_resource, tag)
+print(tag)
+print(instance_ids)
 
 execute_commands_on_linux_instances(ssm_client, commands, instance_ids)
