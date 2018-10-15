@@ -20,6 +20,21 @@ jobs:
               docker build -t $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME:$DOCKER_TAG .
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME:$DOCKER_TAG
+  staging:
+    docker:
+        - image: python:3.7
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: Install boto3
+          command: |
+              pip install boto3
+      - run:
+         name: Deploy via script
+         command: |
+            DOCKER_TAG=$(echo ${CIRCLE_SHA1} | cut -c1-8)
+            python3 update_deploy.py staging-${TAG} ${SCRIPT_LOCATION} ${DOCKER_TAG}
   deploy:
     docker:
         - image: python:3.7
@@ -40,6 +55,12 @@ workflows:
   build-and-deploy:
     jobs:
       - build
+      - staging:
+            requires:
+                - build
+            filters:
+                branches:
+                    only: dev
       - deploy:
             requires:
                 - build
