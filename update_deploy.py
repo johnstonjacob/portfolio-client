@@ -31,7 +31,7 @@ def getTaggedInstances(client, value):
             'Name': 'tag:aws:cloudformation:stack-name',
             'Values': [value]
         }])
-    return [instance['InstanceId'] for instance in instances['Reservations'][0]['Instances']]
+    return [instance['InstanceId'] for instance in instances['Reservations'][0]['Instances'] if instance['State']['Code'] == 16]
 
 
 if len(sys.argv) < 4:
@@ -53,5 +53,9 @@ script = s3_client.get_object(Bucket=bucket, Key=path)["Body"].read().decode("ut
 
 commands = [script]
 instance_ids = getTaggedInstances(ec2_resource, tag)
+
+if len(instance_ids) < 1:
+    print("No instances tagged with this tag are running")
+    sys.exit(1)
 
 execute_commands_on_linux_instances(ssm_client, commands, instance_ids)
