@@ -11,7 +11,7 @@ jobs:
       - run:
           name: Create .env file
           command: |
-              echo REACT_APP_API_URL=${REACT_APP_API_URL} >> .env
+              echo REACT_APP_API_URL=/api >> .env
               echo REACT_APP_CV_URL=${REACT_APP_CV_URL} >> .env
       - run: 
           name: Build docker image
