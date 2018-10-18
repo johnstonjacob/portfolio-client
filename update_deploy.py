@@ -10,7 +10,7 @@ def execute_commands_on_linux_instances(client, commands, instance_ids):
     notification_arn = os.environ["NOTIFICATION_ARN"]
     
     resp = client.send_command(
-        DocumentName="AWS-RunShellScript", # One of AWS' preconfigured documents
+        DocumentName="AWS-RunShellScript", 
         Parameters={
             'commands': commands,
             'workingDirectory': ['~']
@@ -27,11 +27,14 @@ def execute_commands_on_linux_instances(client, commands, instance_ids):
     )
 
 def getTaggedInstances(client, value):
-    instances = client.describe_instances(Filters=[{
+    allInstancesWithTag = client.describe_instances(Filters=[{
             'Name': 'tag:aws:cloudformation:stack-name',
             'Values': [value]
-        }])
-    return [instance['InstanceId'] for instance in instances['Reservations'][0]['Instances'] if instance['State']['Code'] == 16]
+        }])['Reservations']
+    instanceGroups = [instanceGroup['Instances'] for instanceGroup in allInstancesWithTag]
+    instances = [instance for instanceGroup in instanceGroups for instance in instanceGroup]
+
+    return [instance['InstanceId'] for instance in instances if instance['State']['Code'] == 16]
 
 
 if len(sys.argv) < 4:
@@ -53,6 +56,7 @@ script = s3_client.get_object(Bucket=bucket, Key=path)["Body"].read().decode("ut
 
 commands = [script]
 instance_ids = getTaggedInstances(ec2_resource, tag)
+print(instance_ids)
 
 if len(instance_ids) < 1:
     print("No instances tagged with this tag are running")
